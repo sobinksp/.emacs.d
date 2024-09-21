@@ -17,7 +17,7 @@
       (setq default-directory (expand-file-name ".emacs.d" appdata-roaming)))))
 
 (when (eq system-type 'darwin)
-  (setq mac-command0modifier 'meta))
+  (setq mac-command-modifier 'meta))
 
 ;; displays current match and total matches isearch.
 (setq isearch-lazy-count t)
@@ -36,20 +36,20 @@
  ;; If there is more than one, they won't work right.
  '(global-display-line-numbers-mode t)
  '(package-selected-packages
-   '(yasnippet-snippets yasnippet lsp-ui company-lsp lsp-mode diff-hl dff-hl git-gutter-fringe git-gutter anzu autothemer evil-surround evil-commentary evil))
+   '(company evil-leader yasnippet-snippets yasnippet lsp-ui company-lsp lsp-mode diff-hl dff-hl git-gutter-fringe git-gutter anzu autothemer evil-surround evil-commentary evil))
  '(tool-bar-mode nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:family "JetBrainsMono NF" :foundry "outline" :slant normal :thin regular :height 130 :width normal :weight regular)))))
+ '(default ((t (:family "JetBrainsMono Nerd Font" :foundry "nil" :slant normal :thin regular :height 150 :width normal :weight regular)))))
 
 ;; Enable auto live-reload buffer if its changed externally.
 (global-auto-revert-mode t)
 
 ;; Theme
-(load-theme 'no-clown-fiesta t)
+;(load-theme 'no-clown-fiesta t)
 
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
@@ -116,7 +116,8 @@
 
 ;; Install and configure Evil Commentary
 (use-package evil-commentary
-  :after evil
+  :ensure t
+ ;; :after evil
   :config
   (evil-commentary-mode))
 
@@ -194,3 +195,9 @@
 	 (progn
 	   (window-configuration-to-register '_)
 	   (delete-other-windows))))
+
+(use-package autothemer
+  :ensure t
+  )
+
+(load-theme 'no-clown-fiesta t)

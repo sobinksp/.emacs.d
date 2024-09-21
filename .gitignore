@@ -1,0 +1,7 @@
+#ignore everything
+*
+
+#except these fiels
+!.gitignore
+!init.el
+!no-clown-fiesta-theme.el
