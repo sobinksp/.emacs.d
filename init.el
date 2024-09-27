@@ -10,6 +10,11 @@
 (menu-bar-mode t)
 (scroll-bar-mode -1) 
 
+;; blinking cursor
+(blink-cursor-mode 0)
+
+;; auto pairs
+(electric-pair-mode t)
 ;; Highlight the current line
 ;; (global-hl-line-mode t)
 
@@ -65,12 +70,14 @@
    '("622034e2b06b087d3e950652c93e465f3df6eab50bfdceddaa78077487e9bc24" default))
  '(global-display-line-numbers-mode t)
  '(package-selected-packages
-   '(doom-themes assemblage-theme flycheck general timu-rouge timu-rogue-theme timu-rouge-theme company evil-leader yasnippet-snippets yasnippet lsp-ui company-lsp lsp-mode diff-hl dff-hl git-gutter-fringe git-gutter anzu autothemer evil-surround evil-commentary evil))
+   '(counsel consult doom-themes assemblage-theme flycheck general timu-rouge timu-rogue-theme timu-rouge-theme company evil-leader yasnippet-snippets yasnippet lsp-ui company-lsp lsp-mode diff-hl dff-hl git-gutter-fringe git-gutter anzu autothemer evil-surround evil-commentary evil))
  '(tool-bar-mode nil))
 
 ;; Enable auto live-reload buffer if its changed externally.
 (global-auto-revert-mode t)
 
+;; live reload for dired
+(setq global-auto-revert-non-file-buffers t)
 ;; Theme
 ;(load-theme 'no-clown-fiesta t)
 
@@ -139,16 +146,16 @@
     (kbd "]d") 'flycheck-next-error
     (kbd "[d") 'flycheck-previous-error)
   ;; (define-key evil-visual-state-map (kbd ">") (kbd ">gv"))
-  (define-key evil-visual-state-map (kbd ">") (lambda()
-						(interactive)
-						(evil-shift-right (region-beginning) (region-end))
-						(evil-normal-state)
-						(evil-visual-restore)))
-  (define-key evil-visual-state-map (kbd "<") (lambda()
-						(interactive)
-						(evil-shift-left (region-beginning) (region-end))
-						(evil-normal-state)
-						(evil-visual-restore)))
+  ;; (define-key evil-visual-state-map (kbd ">") (lambda()
+  ;; 						(interactive)
+  ;; 						(evil-shift-right (region-beginning) (region-end))
+  ;; 						(evil-normal-state)
+  ;; 						(evil-visual-restore)))
+  ;; (define-key evil-visual-state-map (kbd "<") (lambda()
+  ;; 						(interactive)
+  ;; 						(evil-shift-left (region-beginning) (region-end))
+  ;; 						(evil-normal-state)
+  ;; 						(evil-visual-restore)))
 )
 
 (use-package evil-commentary
@@ -206,6 +213,7 @@
   ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
   (setq lsp-keymap-prefix "C-c l")
   :hook (;; replace XXX-mode with concrete major-mode(e. g. python-mode)
+	 (lsp-mode . lsp-diagnostics-mode)
 	 (python-mode . lsp)
 	 (typescript-mode . lsp)
 	 (js-mode . lsp)
@@ -329,8 +337,8 @@
    :ensure t
    :init (global-flycheck-mode))
 
-(use-package consult
-  :ensure t)
+;; (use-package consult
+;;   :ensure t)
 
 (use-package counsel
   :ensure t
@@ -343,9 +351,15 @@
   (ivy-mode)
   (setq ivy-use-virtual-buffers t)
   (setq enable-recursive-minibuffers t)
+  (define-key ivy-minibuffer-map (kbd "C-j") 'ivy-next-line)
+  (define-key ivy-minibuffer-map (kbd "C-k") 'ivy-previous-line)
   )
 
-
+(use-package yasnippet
+  :ensure t
+  :config
+  (yas-global-mode 1)
+)
 ;; (use-package marginalia
 ;;   :ensure t
 ;;   :init
